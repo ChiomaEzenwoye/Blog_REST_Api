@@ -21,6 +21,7 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private boolean isLiked;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
