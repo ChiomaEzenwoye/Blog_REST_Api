@@ -4,7 +4,6 @@ import com.example.restblog.dto.*;
 import com.example.restblog.response.*;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface UserService {
     RegisterResponse register(UserDto userDto);
     LoginResponse loginUser(LoginDto loginDto);
