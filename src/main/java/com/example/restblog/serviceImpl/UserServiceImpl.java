@@ -42,19 +42,19 @@ public class UserServiceImpl implements UserService {
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
-
+    @Override
     public User findUserByEmail(String email){
         return userRepository.findUserByEmail(email).orElseThrow(()-> new UserNotFoundException("User with "+ email + " not found"));
     }
-
+    @Override
     public User findUserById(long id){
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User not found in DB"));
     }
-
+    @Override
     public Post findPostById(long id){
         return postRepository.findById(id).orElseThrow(()-> new PostNotFoundException("User not found in DB"));
     }
-
+    @Override
     public String createSlug(String input) {
         String noWhitespace = WHITESPACE.matcher(input).replaceAll("-");
         String normalized = Normalizer.normalize(noWhitespace, Normalizer.Form.NFD);
@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setRoles(userDto.getRole());
+        user.setRoles(userDto.getRoles());
         userRepository.save(user);
-        return new RegisterResponse("success", LocalDateTime.now(),user);
+        return new RegisterResponse("success", LocalDateTime.now(), user);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
             like.setPost(post);
             likeRepository.save(like);
             List<Like> likeList = likeRepository.likeList(post_id);
-            likeResponse = new LikeResponse("success",LocalDateTime.now(),like, likeList.size());
+            likeResponse = new LikeResponse("success", LocalDateTime.now(), post, like, likeList.size());
         }else{
             likeRepository.delete(duplicated);
             throw new PostAlreadyLikedException("This post is now unliked");
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SearchPostResponse searchPost(String keyword) {
-        List<Post> postList = postRepository.findByTitleContaining(keyword);
+        List<Post> postList = postRepository.findByTitleContainingIgnoreCase(keyword);
         return new SearchPostResponse("success", LocalDateTime.now(),postList);
     }
 
