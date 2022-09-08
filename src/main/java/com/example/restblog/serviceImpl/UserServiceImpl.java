@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
     @Override
     public User findUserByEmail(String email){
-        return userRepository.findUserByEmail(email).orElseThrow(()-> new UserNotFoundException("User with "+ email + " not found"));
+        return userRepository.findUserByEmail(email).orElseThrow(()-> new UserNotFoundException("User not found"));
     }
     @Override
     public User findUserById(long id){
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public Post findPostById(long id){
-        return postRepository.findById(id).orElseThrow(()-> new PostNotFoundException("User not found in DB"));
+        return postRepository.findById(id).orElseThrow(()-> new PostNotFoundException("Post not found in DB"));
     }
     @Override
     public String createSlug(String input) {
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
             if(loggedInUser.getPassword().equals(loginDto.getPassword())){
                 loginResponse = new LoginResponse("success", LocalDateTime.now());
             }else{
-                loginResponse = new LoginResponse("Password Mismatch", LocalDateTime.now());
+                loginResponse = new LoginResponse("Password MisMatch", LocalDateTime.now());
             }
         }
         return loginResponse;
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SearchCommentResponse searchComment(String keyword) {
-       List<Comment> commentList = commentRepository.findByCommentContaining(keyword);
+       List<Comment> commentList = commentRepository.findByCommentContainingIgnoreCase(keyword);
         return new SearchCommentResponse("success", LocalDateTime.now(), commentList);
     }
 

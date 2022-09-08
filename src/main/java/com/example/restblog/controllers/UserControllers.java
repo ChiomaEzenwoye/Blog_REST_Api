@@ -55,12 +55,12 @@ public class UserControllers {
 
     }
 
-    @GetMapping(value ="/searchPost{keyword}")
+    @GetMapping(value ="/searchPost/{keyword}")
     public ResponseEntity<SearchPostResponse> searchPost(@PathVariable(value="keyword") String keyword){
         return new ResponseEntity<>(userService.searchPost(keyword), FOUND);
     }
 
-    @GetMapping(value ="/searchComment{keyword}")
+    @GetMapping(value ="/searchComment/{keyword}")
     public ResponseEntity<SearchCommentResponse> searchComment(@PathVariable(value="keyword") String keyword){
         return new ResponseEntity<>(userService.searchComment(keyword), FOUND);
     }

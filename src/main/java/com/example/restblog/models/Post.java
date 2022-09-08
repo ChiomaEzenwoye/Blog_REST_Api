@@ -13,6 +13,8 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "posts")
